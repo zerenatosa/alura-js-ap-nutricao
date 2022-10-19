@@ -1,0 +1,9 @@
+{
+    "env":{
+        "MYSQL_USER": "root",
+        "MYSQL_PASSWORD": "Macaca19",
+        "MYSQL_DATABASE":"estudo_rest_clientes",
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": 3306   
+    }
+}
