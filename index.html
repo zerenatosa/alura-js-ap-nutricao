@@ -2,17 +2,18 @@
 <html lang="pt-br">
 	<head>
 		<meta charset="UTF-8">
-		<title>Academia - Desafio 01 - Quinta versão</title>
+		<title>Academia - Desafio 01 - Sexta versão</title>
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="css/reset.css">
 		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection">
 
 	</head>
 	<body onload="hello()">
 
 		<header>
  			<div class="container">
-				<h1 class = "titulo">Academia - Desafio 01 - Quinta versão</h1>
+				<h1 class = "titulo">Academia - Desafio 01 - Sexta versão</h1>
 			</div>
 		</header>
 		<main>
@@ -29,6 +30,7 @@
 				<button id="buscar-pacientes4" class="botao bto-principal">adicionar manualmente</button>
 				<button id="mostrar-clientes" class="botao bto-principal">mostrar clientes</button>
 				<button id="esconder-clientes" class="botao bto-principal">esconder clientes</button>
+				<!-- <button id="limpar-clientes" class="botao bto-principal">esconder clientes</button> -->
 				
 				<br />
 				<br />
@@ -77,10 +79,12 @@
 			<section class="container"  id = "containerInicial">
 				<h2>meus clientes</h2>
 				<label for ="totalDaRenda">Total da Renda <span name ="totalDaRenda" id = "totalizadorDaRendaDosClientes"></span></label> 
+				<br>
 				<label for="filtrar-tabela">Filtre:</label>
 				<input type="text" name="filtro" id="filtrar-tabela" placeholder="digite o nome do paciente">
+				<br>
 				<span id = "status-ajax" class = "invisivel"></span>
-				<table>
+				<table id = "tabela-geral" class="highlight">
 					<thead>
 						<tr>
 							<th>cd_cliente</th>
@@ -91,6 +95,7 @@
 							<th>renda (R$) </th>
 							<th>idade em anos</th>
 							<th>justificativa da renda</th>
+							<th>ação</th>
 							
 						</tr>
 					</thead>

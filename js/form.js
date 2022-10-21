@@ -55,6 +55,7 @@ botaoAdicionar.addEventListener("click", function(event){
     containerInicial.classList.remove("invisivel")
 /*     var containerIncialSemPacientes = document.querySelector("#containerNaoPossuiClientes");
     containerIncialSemPacientes.classList.add("invisivel") */
+    adicionaBD(cliente)
     somaRenda();
     escondeAdicionaPacientesManualmente();
     mostraTabelaClientes();
@@ -85,7 +86,7 @@ function obtemClienteDoForm(form){
 
     alert(cliente.nome)
     console.log(cliente.nome + 'entrei aqui')
-    adicionaBD(cliente)
+    /* adicionaBD(cliente) */
 /*     var xhr = new XMLHttpRequest();
     xhr.open("POST","http://127.0.0.1:3000/clientes" )
     var data = 'nome='             + cliente.nome 
@@ -107,6 +108,7 @@ function montaTr(cliente){
   
     var clienteTr = document.createElement("tr");
     clienteTr.classList.add("cliente");
+    clienteTr.id = cliente.cd_cliente;
 
     var cd_clienteTd = montaTd(cliente.cd_cliente, "info-cd_cliente")
     var matriculaTd = montaTd(cliente.matricula, "info-matricula")
@@ -116,6 +118,7 @@ function montaTr(cliente){
     var dataDeNascimentoTd = montaTd(cliente.data_nascimento, "info-data-de-nascimento")
     var idadeTd = montaTd(cliente.idade,"info-idade");
     var justificativaTd = montaTd(cliente.justificativa, "info-justificativa")
+    var acao = montaTd("remover", "info-remover");
     
     
     cd_clienteTd.textContent = cliente.cd_cliente;
@@ -126,6 +129,7 @@ function montaTr(cliente){
     dataDeNascimentoTd.textContent = cliente.data_nascimento;
     idadeTd.textContent = cliente.idade;
     justificativaTd.textContent = cliente.justificativa;
+    acao.innerHTML = "<button id='remover-paciente' onclick='alerta(event)'>del</button>" 
     
     value = parseInt(rendaTd.textContent);
     var price = value.toLocaleString("pt-BR",{
@@ -156,6 +160,7 @@ rendaTd.textContent = price;
     clienteTr.appendChild(rendaTd);
     clienteTr.appendChild(idadeTd);
     clienteTr.appendChild(justificativaTd);
+    clienteTr.appendChild(acao);
     
 
     var justificativa = document.querySelector("#justificativa");
@@ -270,3 +275,46 @@ function adicionaBD(cliente){
     xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     xhr.send(data)
 }
+
+/*  var botaoRemover = document.querySelector("#remover-paciente");
+
+
+ botaoRemover.onclick = alerta  ;
+
+ function alerta(){
+    alert('clieuqie')
+ } */
+/* botaoRemover.addEventListener("click", function(){
+    
+    alert('clicquei no deletar')
+})
+ */
+
+function alerta(){
+    alert('clieuqie')
+   var rowId = event.target.parentNode.parentNode.id
+   alert(rowId)
+
+   var xhr = new XMLHttpRequest();
+    xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
+    var data = 'id_produto=' + rowId;
+              
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.send(data)
+    
+ /*    var index, table = document.getElementById('tabela-geral');
+    for(var i = 1; i < table.rows.length; i++)
+    { */
+        /* table.rows[i].cells[3].onclick = function()
+        {
+            var c = confirm("do you want to delete this row");
+            if(c === true)
+            { */
+/*                 index = this.parentElement.rows 
+                alert(index)
+            }
+             */
+            //console.log(index);
+
+
+ } 

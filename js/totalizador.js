@@ -2,7 +2,7 @@
 function somaRenda(){
 var clientes = document.querySelectorAll(".cliente");
 total = 0;
-console.log('tamanho do cliente' + clientes.length)
+/* console.log('tamanho do cliente' + clientes.length) */
 for (var i=0;i<clientes.length; i++){
     var cliente = clientes[i];
     var tdRenda = cliente.querySelector(".info-renda");
@@ -10,15 +10,15 @@ for (var i=0;i<clientes.length; i++){
 
     tamanhoRenda = tdRenda.textContent.length;
     rendaAp = tdRenda.textContent.substr(3,(tamanhoRenda-3))
-    console.log('nova tentativa' + rendaAp)
+/*     console.log('nova tentativa' + rendaAp) */
     arraySemVirgula = rendaAp.split(",")
     numeroSemVirgula = arraySemVirgula[0]
-    console.log('array sem virgula' + numeroSemVirgula)
+/*     console.log('array sem virgula' + numeroSemVirgula) */
     numeroSemPonto = numeroSemVirgula.replace(/[^0-9]/g, '')
-    console.log('numero sem ponto' + numeroSemPonto)
+/*     console.log('numero sem ponto' + numeroSemPonto) */
 
     numeroSemPontoParseado = Number.parseInt(numeroSemPonto)
-    console.log(numeroSemPontoParseado + "numero sem ponto parseado")
+/*     console.log(numeroSemPontoParseado + "numero sem ponto parseado") */
     total = numeroSemPontoParseado + total;
 
     /* somadosnumeros = numeroSemPontoParseado + 2 */
@@ -44,7 +44,7 @@ var price = value.toLocaleString("pt-BR",{
     minimumFractionDigits: 2,
 })
 
-console.log('price' + price)
+/* console.log('price' + price) */
 
 
 

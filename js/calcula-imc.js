@@ -7,7 +7,7 @@ var qtdPacientes = pacientes.length;
 
 
 for (var i=0; i< qtdPacientes; i++){
-    console.log(pacientes[i].querySelector(".info-peso").textContent + 'kkk');
+/*     console.log(pacientes[i].querySelector(".info-peso").textContent + 'kkk'); */
     
 
     var paciente = pacientes[i];//.querySelector(".info-nome");    
@@ -27,12 +27,12 @@ for (var i=0; i< qtdPacientes; i++){
 
    
     if(!pesoEhValido){
-        console.log("peso inválido");
+/*         console.log("peso inválido"); */
         pesoEhValido = false;
        /*  alert('passeio tbm') */
     }
     if(!alturaEhValida){
-        console.log("altura inválido");
+/*         console.log("altura inválido"); */
         alturaEhValida = false;
     }
     
