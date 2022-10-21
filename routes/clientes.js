@@ -71,7 +71,8 @@ router.get('/:id_produto', (req, res, next)=>{
     mysql.getConnection((error, conn) => {
         if(error){return res.status(500).send({error:error})}
         conn.query(
-            'select * from produtos;',
+            'select * from clientes where cd_cliente = ?;',
+            [req.params.id_produto],
             (error, resultado, fields) =>{
                 conn.release();
                 if(error){return res.status(500).send({error:error})}
@@ -91,8 +92,21 @@ router.patch('/', (req, res, next) =>{
 
 //exclui um produto
 router.delete('/', (req, res, next) =>{
-    res.status(201).send({
+/*     res.status(201).send({
         mensagem: 'usando o delete dentro da rota de produtos'
+    }) */
+
+    mysql.getConnection((error, conn) => {
+        if(error){return res.status(500).send({error:error})}
+        conn.query(
+            'delete from clientes where cd_cliente = ?;',
+            [req.body.id_produto],
+            (error, resultado, fields) =>{
+                conn.release();
+                if(error){return res.status(500).send({error:error})}
+                return res.status(202).send({response: resultado})
+            }
+        )
     })
 })
 
