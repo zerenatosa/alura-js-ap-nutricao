@@ -85,8 +85,30 @@ router.get('/:id_produto', (req, res, next)=>{
 
 //altera um produto
 router.patch('/', (req, res, next) =>{
-    res.status(201).send({
+/*     res.status(201).send({
         mensagem: 'usando o patch dentro da rota de produtos'
+    }) */
+    mysql.getConnection((error, conn)=> {
+        if(error){return res.status(500).send({error:error})}
+        conn.query(
+            /* 'insert into clientes (nome, cpf, renda, data_nascimento, idade, justificativa, matricula) values (?,?,?,?,?,?,?)', */
+            'UPDATE clientes SET nome = ?, cpf = ?, justificativa = ? where cd_cliente =?',
+            /* [req.body.nome, req.body.cpf, req.body.renda, req.body.data_nascimento, req.body.idade, req.body.justificativa, req.body.matricula], */
+            [req.body.nome, req.body.cpf,req.body.justificativa, req.body.cd_cliente],
+            (error, resultado, field)=>{
+                conn.release();
+                if(error){
+                    return res.status(500).send({
+                        error: error,
+                        response: null
+                    })
+                } 
+                res.status(201).send({
+                    mensaegm: 'Produto inserido com sucesso',
+                    id_produto: resultado.insertId
+                })
+            }
+        )
     })
 })
 
