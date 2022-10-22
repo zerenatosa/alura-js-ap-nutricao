@@ -58,7 +58,8 @@ botaoAdicionar.addEventListener("click", function(event){
     adicionaBD(cliente)
     somaRenda();
     escondeAdicionaPacientesManualmente();
-    mostraTabelaClientes();
+    limpaTabela()
+    /* mostraTabelaClientes(); */
 
 });
 
@@ -109,7 +110,7 @@ function montaTr(cliente){
     var clienteTr = document.createElement("tr");
     clienteTr.classList.add("cliente");
     clienteTr.id = cliente.cd_cliente;
-
+    
     var cd_clienteTd = montaTd(cliente.cd_cliente, "info-cd_cliente")
     var matriculaTd = montaTd(cliente.matricula, "info-matricula")
     var nomeTd = montaTd(cliente.nome, "info-nome")
@@ -118,18 +119,31 @@ function montaTr(cliente){
     var dataDeNascimentoTd = montaTd(cliente.data_nascimento, "info-data-de-nascimento")
     var idadeTd = montaTd(cliente.idade,"info-idade");
     var justificativaTd = montaTd(cliente.justificativa, "info-justificativa")
-    var acao = montaTd("remover", "info-remover");
+    var acao = montaTd("", "info-remover");
     
     
-    cd_clienteTd.textContent = cliente.cd_cliente;
+    /* cd_clienteTd.textContent = cliente.cd_cliente;
     matriculaTd.textContent = cliente.matricula;
     nomeTd.textContent = cliente.nome;
     cpfTd.textContent = cliente.cpf;
     rendaTd.textContent = cliente.renda;
     dataDeNascimentoTd.textContent = cliente.data_nascimento;
-    idadeTd.textContent = cliente.idade;
-    justificativaTd.textContent = cliente.justificativa;
-    acao.innerHTML = "<button id='remover-paciente' onclick='alerta(event)'>del</button>" 
+    idadeTd.textContent = cliente.idade;*/
+    cd_clienteTd.classList.add("textoNaoEditavel")
+    matriculaTd.classList.add("textoNaoEditavel")
+    dataDeNascimentoTd.classList.add("textoNaoEditavel")
+    idadeTd.classList.add("textoNaoEditavel")
+    rendaTd.classList.add("textoNaoEditavel")
+    rendaTd.innerHTML = "<div contenteditable>" + cliente.renda + "</div>"
+    nomeTd.classList.add("textoEditavel")
+    nomeTd.innerHTML = "<div contenteditable>" + cliente.nome + "</div>"
+    cpfTd.classList.add("textoEditavel")
+    cpfTd.innerHTML = "<div contenteditable>" + cliente.cpf + "</div>"
+     justificativaTd.innerHTML = "<div contenteditable>" + cliente.justificativa + "</div>"
+     justificativaTd.classList.add("textoEditavel")
+     
+/*     justificativaTd.textContent = cliente.justificativa;  */
+     acao.innerHTML = "<button id='remover-paciente' onclick='deletaCliente(event)'>del</button> <button id='editar-paciente' onclick='editaCliente(event)'>edit</button>"  
     
     value = parseInt(rendaTd.textContent);
     var price = value.toLocaleString("pt-BR",{
@@ -174,7 +188,7 @@ rendaTd.textContent = price;
 
 function montaTd(dado, classe){
     var td = document.createElement("td");
-    td.textContent = dado;
+    td.textContent = dado; 
     td.classList.add(classe);
     return td;
 }
@@ -290,18 +304,41 @@ function adicionaBD(cliente){
 })
  */
 
-function alerta(){
+function deletaCliente(){
     alert('clieuqie')
-   var rowId = event.target.parentNode.parentNode.id
+    alert(event.target.parentNode.parentNode.innerText)
+    var texto = event.target.parentNode.parentNode.innerText
+    alert('tamanho' + texto.length)
+    console.log('aqui vai o texto quebrado' + texto)
+    arrayTexto = texto.split("\t")
+    console.log('cpf - ' + arrayTexto[2] + 'nome - ' + arrayTexto[3] + 'justificativa da renda - ' + arrayTexto[7])
+    var rowId = event.target.parentNode.parentNode.id
+
    alert(rowId)
 
-   var xhr = new XMLHttpRequest();
+/*     var xhr = new XMLHttpRequest();
+    xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
+    var data = 'id_produto=' + rowId;
+              
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.send(data) */
+
+var val = confirm("Deseja mesmo deletar " + arrayTexto[3] + " ?" );
+if (val == true) {
+    var xhr = new XMLHttpRequest();
     xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
     var data = 'id_produto=' + rowId;
               
     xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     xhr.send(data)
-    
+    limpaTabela()
+} else {
+    alert("You pressed Cancel.");
+}
+
+
+
+    /* limpaTabela() */
  /*    var index, table = document.getElementById('tabela-geral');
     for(var i = 1; i < table.rows.length; i++)
     { */
@@ -318,3 +355,23 @@ function alerta(){
 
 
  } 
+
+
+ function editaCliente(){
+    var texto = event.target.parentNode.parentNode.innerText
+    alert('tamanho' + texto.length)
+    console.log('aqui vai o texto quebrado' + texto)
+    arrayTexto = texto.split("\t")
+    console.log('cpf - ' + arrayTexto[2] + 'nome - ' + arrayTexto[3] + 'justificativa da renda - ' + arrayTexto[7])
+    var data = 'nome='           + arrayTexto[3]
+             + '&cpf='           + arrayTexto[2]
+             + '&justificativa=' + arrayTexto[7]
+             + '&cd_cliente='    + arrayTexto[0]
+    console.table('tabela  ' + data )         
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("PATCH","http://127.0.0.1:3000/clientes" )
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.send(data)
+
+ }

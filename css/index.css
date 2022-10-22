@@ -58,3 +58,13 @@
 table.highlight>tbody>tr {
     color: black !important; 
 }
+
+.textoEditavel{
+	font-weight: bold;
+	
+}
+
+.textoNaoEditavel{
+	font-weight: lighter;
+	color:cadetblue;
+}
