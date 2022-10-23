@@ -31,11 +31,11 @@ botaoAdicionar.addEventListener("click",function(){
     
     xhr.addEventListener("load", function(){
 
-        alert('entrei tbm')
+        /* alert('entrei tbm') */
         if(xhr.status == 200){
 
 
-            alert('entrei aqui')
+           /*  alert('entrei aqui') */
             
             var resposta = xhr.responseText;
             var pacientes = JSON.parse(resposta);

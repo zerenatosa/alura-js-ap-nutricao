@@ -65,6 +65,14 @@ table.highlight>tbody>tr {
 }
 
 .textoNaoEditavel{
+	font-weight: normal;
+}
+
+.textoFixo{
+	font-weight: normal;
+}
+
+.textoFixoApos{
 	font-weight: lighter;
-	color:cadetblue;
+	color: grey;
 }

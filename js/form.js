@@ -129,21 +129,21 @@ function montaTr(cliente){
     rendaTd.textContent = cliente.renda;
     dataDeNascimentoTd.textContent = cliente.data_nascimento;
     idadeTd.textContent = cliente.idade;*/
-    cd_clienteTd.classList.add("textoNaoEditavel")
-    matriculaTd.classList.add("textoNaoEditavel")
-    dataDeNascimentoTd.classList.add("textoNaoEditavel")
-    idadeTd.classList.add("textoNaoEditavel")
-    rendaTd.classList.add("textoNaoEditavel")
-    rendaTd.innerHTML = "<div contenteditable>" + cliente.renda + "</div>"
-    nomeTd.classList.add("textoEditavel")
-    nomeTd.innerHTML = "<div contenteditable>" + cliente.nome + "</div>"
-    cpfTd.classList.add("textoEditavel")
-    cpfTd.innerHTML = "<div contenteditable>" + cliente.cpf + "</div>"
-     justificativaTd.innerHTML = "<div contenteditable>" + cliente.justificativa + "</div>"
-     justificativaTd.classList.add("textoEditavel")
+    cd_clienteTd.classList.add("textoFixo")
+    matriculaTd.classList.add("textoFixo")
+    dataDeNascimentoTd.classList.add("textoFixo")
+    idadeTd.classList.add("textoFixo")
+    rendaTd.classList.add("textoFixo")
+    /* rendaTd.innerHTML = "<div contenteditable=true>" + cliente.renda + "</div>" */
+    nomeTd.classList.add("textoNaoEditavel")
+    nomeTd.innerHTML = "<div contenteditable=false>" + cliente.nome + "</div>"
+    cpfTd.classList.add("textoNaoEditavel")
+    cpfTd.innerHTML = "<div contenteditable=false>" + cliente.cpf + "</div>"
+    justificativaTd.innerHTML = "<div contenteditable=false>" + cliente.justificativa + "</div>"
+    justificativaTd.classList.add("textoNaoEditavel")
      
 /*     justificativaTd.textContent = cliente.justificativa;  */
-     acao.innerHTML = "<button id='remover-paciente' onclick='deletaCliente(event)'>del</button> <button id='editar-paciente' onclick='editaCliente(event)'>edit</button>"  
+     acao.innerHTML = "<button id='remover-paciente' onclick='deletaCliente(event)'>del</button> <button id='editar-paciente' onclick='abreEdicao(event)'>edit</button>"  
     
     value = parseInt(rendaTd.textContent);
     var price = value.toLocaleString("pt-BR",{
@@ -305,14 +305,26 @@ function adicionaBD(cliente){
  */
 
 function deletaCliente(){
-    alert('clieuqie')
-    alert(event.target.parentNode.parentNode.innerText)
+/*     alert('clieuqie')
+    alert(event.target.parentNode.parentNode.innerText) */
     var texto = event.target.parentNode.parentNode.innerText
-    alert('tamanho' + texto.length)
-    console.log('aqui vai o texto quebrado' + texto)
+    /* event.target.parentNode.parentNode.classList.add("destaqueTexto"); */
+    /* console.table(event.target.parentNode.parentNode.firstChild.children[1] + ' filhos'); */
+    /* htmlInicial = event.target.parentNode.parentNode.innerHTML
+    console.table('primeira tabela' + htmlInicial)
+    html1 = htmlInicial.replaceAll("textoNaoEditavel","textoEditavel")
+    html2 = html1.replaceAll("false", "true")
+    console.table('tabela' + html2)
+    event.target.parentNode.parentNode.innerHTML = html2 */
+  /*    console.table(event.target.parentNode.parentNode.innerHTML + 'innerhtml')  */
+/*     console.table(event.parentNode.nodeName + 'novos filhos')
+
+
+    console.log('aqui vai o texto quebrado' + texto) */
     arrayTexto = texto.split("\t")
     console.log('cpf - ' + arrayTexto[2] + 'nome - ' + arrayTexto[3] + 'justificativa da renda - ' + arrayTexto[7])
-    var rowId = event.target.parentNode.parentNode.id
+/*     var rowId = event.target.parentNode.parentNode.id */
+    var rowId = arrayTexto[0]
 
    alert(rowId)
 
@@ -356,6 +368,20 @@ if (val == true) {
 
  } 
 
+ function abreEdicao(){
+    htmlInicial = event.target.parentNode.parentNode.innerHTML
+    console.table('primeira tabela' + htmlInicial)
+    html0 = htmlInicial.replaceAll("textoFixo","textoFixoApos")
+    html1 = html0.replaceAll("textoNaoEditavel","textoEditavel")
+    html2 = html1.replaceAll("false", "true")
+    console.table('tabela' + html2)
+    /* event.target.parentNode.parentNode.innerHTML = html2 */
+    /* rendaAp = tdRenda.textContent.substr(3,(tamanhoRenda-3)) */
+    html3 = html2.substr(0,(html2.length-5))
+    console.table('substring ' + html3)
+    html4 = html3 + '<button id="editar-paciente" onclick="editaCliente(event)">salvar edição</button></td>'
+    event.target.parentNode.parentNode.innerHTML = html4
+ }
 
  function editaCliente(){
     var texto = event.target.parentNode.parentNode.innerText
