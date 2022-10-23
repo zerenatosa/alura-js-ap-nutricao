@@ -3,6 +3,7 @@ var botaoIncluirPacienteManualmente = document.querySelector("#buscar-pacientes4
 var botaomostrarclientes = document.querySelector("#mostrar-clientes");
 var botaoesconderclientes = document.querySelector("#esconder-clientes");
 
+
 botaoesconderclientes.addEventListener("click", function(event){
     event.preventDefault();
     escondeTabelaClientes()
@@ -21,20 +22,16 @@ botaoIncluirPacienteManualmente.addEventListener("click", function(event){
 
 })
 
+//liga o processo de adição de um novo cliente, disparado pelo botão de adionar
 botaoAdicionar.addEventListener("click", function(event){
     event.preventDefault();
     var form = document.querySelector("#form-adiciona")
     var cliente = obtemClienteDoForm(form);
-    console.log(cliente.cpf);
-    console.log(cliente.data_nascimento);
-    console.log(cliente.nome);
-    console.log(cliente.renda);
     var valorRenda = validaRenda(cliente.renda);
     if (!valorRenda){
         console.log('validou a renda')
         var justificativa = document.querySelector("#justificativa");
         if (justificativa.value.length <=0){
-            console.log('vc deve incluir a justifcatvia')
             alert('Você informou uma renda menor que R$ 1.000,00. Inclua uma justificativa')
             removeInvisivel();
             justificativa.focus();
@@ -53,16 +50,17 @@ botaoAdicionar.addEventListener("click", function(event){
     //faz mostrar a tabela que contém os clientes
     var containerInicial = document.querySelector("#containerInicial");
     containerInicial.classList.remove("invisivel")
-/*     var containerIncialSemPacientes = document.querySelector("#containerNaoPossuiClientes");
-    containerIncialSemPacientes.classList.add("invisivel") */
+
     adicionaBD(cliente)
     somaRenda();
     escondeAdicionaPacientesManualmente();
     limpaTabela()
-    /* mostraTabelaClientes(); */
+    buscaClientes();
 
 });
 
+
+//pega um cliente do form e faz os tratamentos
 function obtemClienteDoForm(form){
     
     if (form.justificativa.value.length>0){
@@ -80,32 +78,15 @@ function obtemClienteDoForm(form){
         justificativa: textoJustificativa,
         matricula:'f6.666.666-6'
     }
-    console.log('aqui vai idade ' + cliente.idade)
-    
+        
     var f = cliente.renda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    console.log('valor em moeda' + f)
-
-    alert(cliente.nome)
-    console.log(cliente.nome + 'entrei aqui')
-    /* adicionaBD(cliente) */
-/*     var xhr = new XMLHttpRequest();
-    xhr.open("POST","http://127.0.0.1:3000/clientes" )
-    var data = 'nome='             + cliente.nome 
-             + '&cpf='             + cliente.cpf 
-             + '&renda='           + cliente.renda 
-             + '&data_nascimento=' + cliente.data_nascimento 
-             + '&idade='           + cliente.idade
-             + '&justificativa='   + cliente.justificativa
-             + '&matricula='       + cliente.matricula; 
-    console.log(data + 'aqui vai o data')
-    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    xhr.send(data) */
-
+    
     return cliente;
 }
 
-function montaTr(cliente){
 
+// monta a tr de um cliente
+function montaTr(cliente){
   
     var clienteTr = document.createElement("tr");
     clienteTr.classList.add("cliente");
@@ -121,30 +102,22 @@ function montaTr(cliente){
     var justificativaTd = montaTd(cliente.justificativa, "info-justificativa")
     var acao = montaTd("", "info-remover");
     
-    
-    /* cd_clienteTd.textContent = cliente.cd_cliente;
-    matriculaTd.textContent = cliente.matricula;
-    nomeTd.textContent = cliente.nome;
-    cpfTd.textContent = cliente.cpf;
-    rendaTd.textContent = cliente.renda;
-    dataDeNascimentoTd.textContent = cliente.data_nascimento;
-    idadeTd.textContent = cliente.idade;*/
+    //adiciona classes que fiquei com preguiça de mandar na função alí de cima
+    //essas classes controlam o que pode ser exibido e os campos que podem ser editados
     cd_clienteTd.classList.add("textoFixo")
     matriculaTd.classList.add("textoFixo")
     dataDeNascimentoTd.classList.add("textoFixo")
     idadeTd.classList.add("textoFixo")
     rendaTd.classList.add("textoFixo")
-    /* rendaTd.innerHTML = "<div contenteditable=true>" + cliente.renda + "</div>" */
     nomeTd.classList.add("textoNaoEditavel")
     nomeTd.innerHTML = "<div contenteditable=false>" + cliente.nome + "</div>"
     cpfTd.classList.add("textoNaoEditavel")
     cpfTd.innerHTML = "<div contenteditable=false>" + cliente.cpf + "</div>"
     justificativaTd.innerHTML = "<div contenteditable=false>" + cliente.justificativa + "</div>"
     justificativaTd.classList.add("textoNaoEditavel")
-     
-/*     justificativaTd.textContent = cliente.justificativa;  */
-     acao.innerHTML = "<button id='remover-paciente' onclick='deletaCliente(event)'>del</button> <button id='editar-paciente' onclick='abreEdicao(event)'>edit</button>"  
+    acao.innerHTML = "<button id='remover-paciente' onclick='deletaCliente(event)'>del</button> <button id='editar-paciente' onclick='abreEdicao(event)'>edição</button>"  
     
+    //maracutaias para converter os valores em R$
     value = parseInt(rendaTd.textContent);
     var price = value.toLocaleString("pt-BR",{
         style: "currency",
@@ -152,20 +125,9 @@ function montaTr(cliente){
         minimumFractionDigits: 2,
     })
 
-console.log('price' + price)
+    rendaTd.textContent = price;
 
-rendaTd.textContent = price;
-
-    
-/*     var formatter = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        minimumFractionDigits: 2,
-    }) */
-
-    
-    
-
+    //inclui na tabela    
     clienteTr.appendChild(cd_clienteTd);
     clienteTr.appendChild(matriculaTd);
     clienteTr.appendChild(cpfTd);
@@ -181,11 +143,10 @@ rendaTd.textContent = price;
     if (justificativa.value.length>0){
         clienteTr.classList.add("destaqueTexto")
     }
-
     return clienteTr;
- 
 }
 
+//monta a td
 function montaTd(dado, classe){
     var td = document.createElement("td");
     td.textContent = dado; 
@@ -194,17 +155,13 @@ function montaTd(dado, classe){
 }
 
 
-
+//fiz e não lembro pra que serve, acho que não está sendo usada. não deletei pq deu preguiça de testar
 function validaCliente(cliente){
-
     var erros = [];
-
     if(!validaRenda(cliente.renda)){
         erros.push("renda inválida. deve ser superior a R$ 1.000,00")
     }
-
     return erros;
-    
 }
 
 
@@ -219,7 +176,6 @@ function exibeMensagemDeErro(erros){
 }
 
 function adicionaClienteNaTabela(cliente){
-
     var clienteTr = montaTr(cliente) ; 
     var tabela = document.querySelector("#tabela-clientes");
     tabela.appendChild(clienteTr);  
@@ -249,8 +205,6 @@ function escondeTabelaClientes(){
 function mostraTabelaClientes(){
     var containerInicial = document.querySelector("#containerInicial");
     containerInicial.classList.remove("invisivel")
-/*     var containerIncialSemPacientes = document.querySelector("#containerNaoPossuiClientes");
-    containerIncialSemPacientes.classList.add("invisivel") */
     var containerInicial2 = document.querySelector("#containerAdicionaPacinetes");
     containerInicial2.classList.add("invisivel")
 }
@@ -288,116 +242,92 @@ function adicionaBD(cliente){
              + '&matricula='       + cliente.matricula; 
     xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     xhr.send(data)
+    alert('Você adicionou ' + cliente.nome)
 }
 
-/*  var botaoRemover = document.querySelector("#remover-paciente");
-
-
- botaoRemover.onclick = alerta  ;
-
- function alerta(){
-    alert('clieuqie')
- } */
-/* botaoRemover.addEventListener("click", function(){
-    
-    alert('clicquei no deletar')
-})
- */
-
+//adivinha? deleta um cliente do BD!!
 function deletaCliente(){
-/*     alert('clieuqie')
-    alert(event.target.parentNode.parentNode.innerText) */
     var texto = event.target.parentNode.parentNode.innerText
-    /* event.target.parentNode.parentNode.classList.add("destaqueTexto"); */
-    /* console.table(event.target.parentNode.parentNode.firstChild.children[1] + ' filhos'); */
-    /* htmlInicial = event.target.parentNode.parentNode.innerHTML
-    console.table('primeira tabela' + htmlInicial)
-    html1 = htmlInicial.replaceAll("textoNaoEditavel","textoEditavel")
-    html2 = html1.replaceAll("false", "true")
-    console.table('tabela' + html2)
-    event.target.parentNode.parentNode.innerHTML = html2 */
-  /*    console.table(event.target.parentNode.parentNode.innerHTML + 'innerhtml')  */
-/*     console.table(event.parentNode.nodeName + 'novos filhos')
-
-
-    console.log('aqui vai o texto quebrado' + texto) */
     arrayTexto = texto.split("\t")
     console.log('cpf - ' + arrayTexto[2] + 'nome - ' + arrayTexto[3] + 'justificativa da renda - ' + arrayTexto[7])
-/*     var rowId = event.target.parentNode.parentNode.id */
     var rowId = arrayTexto[0]
+    var val = confirm("Deseja mesmo deletar " + arrayTexto[3] + " ?" );
 
-   alert(rowId)
-
-/*     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
-    var data = 'id_produto=' + rowId;
+    if (val == true) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
+        var data = 'id_produto=' + rowId;
               
-    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    xhr.send(data) */
-
-var val = confirm("Deseja mesmo deletar " + arrayTexto[3] + " ?" );
-if (val == true) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE","http://127.0.0.1:3000/clientes" )
-    var data = 'id_produto=' + rowId;
-              
-    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    xhr.send(data)
-    limpaTabela()
-} else {
-    alert("You pressed Cancel.");
-}
-
-
-
-    /* limpaTabela() */
- /*    var index, table = document.getElementById('tabela-geral');
-    for(var i = 1; i < table.rows.length; i++)
-    { */
-        /* table.rows[i].cells[3].onclick = function()
-        {
-            var c = confirm("do you want to delete this row");
-            if(c === true)
-            { */
-/*                 index = this.parentElement.rows 
-                alert(index)
-            }
-             */
-            //console.log(index);
-
-
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.send(data)
+        limpaTabela()
+        xhr.addEventListener("load", function(){
+        buscaClientes();
+        mostraTabelaClientes()
+        somaRenda()
+    })  
+    alert('Feito! Você deletou ' + arrayTexto[3])
+    } else {
+        alert("ficou com medo, né? \nok, ninguém será excluído.");
+    }
+    
  } 
 
+
+ //daqui pra baixo é só gambiarra mas funciona, pode testar
+
+ 
+ //abre os campos passíveis para edição 
  function abreEdicao(){
     htmlInicial = event.target.parentNode.parentNode.innerHTML
-    console.table('primeira tabela' + htmlInicial)
     html0 = htmlInicial.replaceAll("textoFixo","textoFixoApos")
     html1 = html0.replaceAll("textoNaoEditavel","textoEditavel")
     html2 = html1.replaceAll("false", "true")
-    console.table('tabela' + html2)
-    /* event.target.parentNode.parentNode.innerHTML = html2 */
-    /* rendaAp = tdRenda.textContent.substr(3,(tamanhoRenda-3)) */
     html3 = html2.substr(0,(html2.length-5))
-    console.table('substring ' + html3)
+    html3 = html3.replaceAll("abreE","cancelaE")
+    html3 = html3.replaceAll("edição","cancela edição")
     html4 = html3 + '<button id="editar-paciente" onclick="editaCliente(event)">salvar edição</button></td>'
     event.target.parentNode.parentNode.innerHTML = html4
  }
 
+ //permite edição de um cliente, depois de aberta a edição
  function editaCliente(){
     var texto = event.target.parentNode.parentNode.innerText
-    alert('tamanho' + texto.length)
-    console.log('aqui vai o texto quebrado' + texto)
+  
     arrayTexto = texto.split("\t")
-    console.log('cpf - ' + arrayTexto[2] + 'nome - ' + arrayTexto[3] + 'justificativa da renda - ' + arrayTexto[7])
+  
     var data = 'nome='           + arrayTexto[3]
              + '&cpf='           + arrayTexto[2]
              + '&justificativa=' + arrayTexto[7]
              + '&cd_cliente='    + arrayTexto[0]
-    console.table('tabela  ' + data )         
     
     var xhr = new XMLHttpRequest();
-    xhr.open("PATCH","http://127.0.0.1:3000/clientes" )
-    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    xhr.send(data)
+    xhr.open("PATCH","http://127.0.0.1:3000/clientes")
+    
+    //esse pedaço não faz nada mas se eu tiro para de funcionar a atualização. 
+    //se faz alguma coisa deve estar fazendo escondido de mim, fdp
+    xhr.addEventListener("load", function(){
+    })  
 
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');   
+    limpaTabela();
+    xhr.send(data) 
+    xhr.addEventListener("load", function(){
+        buscaClientes();
+    }) 
+    
+    alert('registro atualizado')
+    
  }
+
+
+ //cancela a edição feita, mas só funciona antes de salvar o dado no BD
+ function cancelaEdicao(){
+    limpaTabela()
+    buscaClientes() 
+    mostraTabelaClientes()
+    alert('edição cancelada')
+ }
+
+
+ 

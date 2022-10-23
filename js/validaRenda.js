@@ -1,3 +1,6 @@
+//mais um exemplo de coisas que fiz e não sei pra que servem. obrigado por ler!
+
+
 function validaRenda(renda){
     if(renda > 1000){
         return true;

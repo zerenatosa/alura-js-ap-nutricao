@@ -2,7 +2,7 @@
 <html lang="pt-br">
 	<head>
 		<meta charset="UTF-8">
-		<title>Academia - Desafio 01 - Sexta versão</title>
+		<title>Academia - Desafio 02 - sétima versão</title>
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="css/reset.css">
 		<link rel="stylesheet" type="text/css" href="css/index.css">
@@ -13,7 +13,7 @@
 
 		<header>
  			<div class="container">
-				<h1 class = "titulo">Academia - Desafio 01 - Sexta versão</h1>
+				<h1 class = "titulo">Academia - Desafio 02 - sétima versão</h1>
 			</div>
 		</header>
 		<main>
@@ -59,18 +59,10 @@
 						<label for="renda">renda em R$:</label>
 						<input id="renda" name="renda" type="text" placeholder="digite a renda do seu cliente" class="campo campo-medio" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 					</div>
-			<!--         <div class="grupo">
-						<label for="dataDeNascimento">data de nascimento:</label>
-						<input id="dataDeNascimento" type="date" placeholder="digite a data de nascimento do seu cliente" class="campo campo-medio"> 
-					</div> -->
 					<div class="grupo">
 						<label for="justificativa" id = "justificativaLabel" class = "invisivel">justificativa</label>
 						<input id="justificativa" type="text" placeholder="digite a justificativa" class="campo campo-medio, invisivel">
 					</div>
-			
-			
-					
-					<!-- <button id="buscar-pacientes" class="botao bto-principal">buscar pacientes no heroku</button> -->
 				</form>
 				<button id="adicionar-cliente" class="botao bto-principal">adicionar</button>
 				<button id="cancelarAdicionarPaciente" class="botao bto-principal">cancelar</button>
@@ -100,27 +92,13 @@
 						</tr>
 					</thead>
 					<tbody id="tabela-clientes">
-<!-- 						<tr class="cliente" id = "primeiro-cliente">
-							<td class="info-cpf">12345678910</td>
-							<td class="info-nome">zerenatosa</td>
-							<td class="info-data-de-nascimento">25/05/1981</td>
-							<td class="info-renda">0</td>
-							<td class="info-idade">0</td>
-							<td class="info-justificativa">renda maior que mil</td>
-							
-						</tr> -->
 					</tbody>
 				</table>
-				<!-- <button id="buscar-pacientes2" class="botao bto-principal">buscar pacientes no heroku</button> -->
 			</section>
 		</main>
-		<!-- <button id="buscar-pacientes3" class="botao bto-principal">buscar pacientes no heroku</button> -->
-<!-- ... -->
-
-
-		<script src="js/calcula-imc.js"></script>
+	
 		<script src="js/form.js"></script>
-<!-- 		<script src="js/remover.js"></script> -->
+ 		<script src="js/remover.js"></script>
 		<script src="js/filtra.js"></script>
 		<script src="js/buscar-pacientes.js"></script>
 		<script src="js/validaRenda.js"></script>

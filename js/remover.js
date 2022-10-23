@@ -1,19 +1,10 @@
 var paciente = document.querySelectorAll(".paciente");
-/* var tabela = document.querySelectorAll */
 
 document.querySelector("table").addEventListener("dblclick", function(event){
-    event.target.parentNode.classList.add("fadeOut");
     
-    setTimeout(function(){
-        event.target.parentNode.remove();
-        somaRenda()
-    },500);
-    /* event.target.parentNode.remove(); */
+    var texto = event.target.parentNode.parentNode.innerText
+    console.log('aqui vai o texto quebrado' + texto)
+    arrayTexto = texto.split("\t")
+    alert('Parabéns. Você deu um duplo clique em ' + arrayTexto[3] + 'nada vai acontecer, fique tranquilo.')
     
 })
-
-/* paciente.forEach(function(cadaPaciente){
-    cadaPaciente.addEventListener("dblclick",function(){
-        this.remove();
-    })
-}) */

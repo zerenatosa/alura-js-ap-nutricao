@@ -1,107 +1,97 @@
-/* console.log('buscar') */
+
 
 var botaoAdicionar = document.querySelector("#buscar-pacientes")
 botaoAdicionar.addEventListener("click",function(){
    limpaTabela();
     spinnerAdd();
-/*     alert('entrei nob ')
-    var spinnerAguardaClientes = document.querySelector("#spinnerAguardaClientes")
-    console.log(spinnerAguardaClientes)
-    spinnerAguardaClientes.classList.remove("invisivel") */
+
     var xhr = new XMLHttpRequest();
-    /* xhr.open("GET", "https://pxl0hosp0577.dispositivos.bb.com.br/talentosos/listarClientes/F11111"); */
-
-/*     xhr.open("POST","http://127.0.0.1:3000/clientes" )
-    var data = 'cd_clientes=99&nome=leilalalala';
-    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    xhr.send(data) */
-
-
     
     xhr.open("GET", "http://127.0.0.1:3000/clientes");
-    /* xhr.open("GET", "https://zerenatosa-filmes.herokuapp.com/"); */
-    /* https://api-pacientes.herokuapp.com/pacientes" */
-
-    
-     /* xhr.open("GET","https://zerenatosa-back10.herokuapp.com/clientes"); */ 
-    /*  xhr.open("GET","https://zerenatosa-clientes.herokuapp.com/clientes");  */
-
-/*      console.log('aaa' + xhr.responseXML) */
-    
     
     xhr.addEventListener("load", function(){
-
-        /* alert('entrei tbm') */
         if(xhr.status == 200){
-
-
-           /*  alert('entrei aqui') */
-            
             var resposta = xhr.responseText;
             var pacientes = JSON.parse(resposta);
-/*             console.log(pacientes.response) */
             pacientes.response.forEach(function(cadaPaciente){
             adicionaClienteNaTabela(cadaPaciente); 
             mostraTabelaClientes()
             somaRenda()
-/*             console.log(pacientes) */
         })
         }else{
-/*             console.log(xhr.status + 'nnnn');
-            console.log(xhr.responseText); */
-            
+            /*se vc chegou até aqui, parabéns. Essa porra não faz nada. Avance para a próxima casa.
+            */
         }
 
         var statusAjax = document.querySelector("#status-ajax");
         statusAjax.classList.remove("invisivel");
         statusAjax.classList.add("destaqueTexto");
-/*         console.log(xhr.status) */
-        statusAjax.textContent = ("O código retornado pela API do heroku é : " + xhr.status);       
+        statusAjax.textContent = ("O código retornado pela API é : " + xhr.status);       
         spinnerRemove(); 
     })
 
     xhr.send();
     
-   
-    
 })
 
+
+//adiciona spinner
 function spinnerAdd(){
     var spinnerAguardaClientes = document.querySelector("#spinnerAguardaClientes")
-/*     console.log(spinnerAguardaClientes) */
     spinnerAguardaClientes.classList.remove("invisivel")
 }
 
+//remove spinner
 function spinnerRemove(){
     var spinnerAguardaClientes = document.querySelector("#spinnerAguardaClientes")
-/*     console.log(spinnerAguardaClientes) */
-    spinnerAguardaClientes.classList.add("invisivel")
+        spinnerAguardaClientes.classList.add("invisivel")
 }
 
-
-
+//desativado, não faz nada (acho)
 var botaoLimparTabela = document.querySelector("#limpar-clientes")
 botaoLimparTabela.addEventListener("click",function(){
-    /* var clientes = document.querySelectorAll(".cliente");
-    console.log('tamanho do cliente - LIMPA TABELA ' + clientes.length) */
+
     var tabela = document.querySelector("#tabela-geral")
-/*     for (var i=0;i<clientes.length; i++){
-     console.log('indice' + i) 
-                 console.log('vai a tabela' + tabela.textContent)
-
-        tabela.innerHTML="";
-        console.log('elemento da tabela' + clientes[i].textContent)
-    } */
-
     console.log(tabela.rows[1].cells[0].textContent)
 
 })
 
 
-
-
-
+//limpa a tabela
 function limpaTabela(){
     var tabela = document.querySelector("#tabela-clientes")
     tabela.innerHTML="";
 }
+
+//busca clientes do banco
+function buscaClientes(){
+    limpaTabela();
+    spinnerAdd();
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://127.0.0.1:3000/clientes");
+    
+    xhr.addEventListener("load", function(){
+
+        if(xhr.status == 200){
+            var resposta = xhr.responseText;
+            var pacientes = JSON.parse(resposta);
+            pacientes.response.forEach(function(cadaPaciente){
+            adicionaClienteNaTabela(cadaPaciente); 
+            somaRenda()
+        })
+        }else{
+        /*se vc chegou até aqui, parabéns. Essa porra não faz nada. Avance para a próxima casa.
+        */
+        }
+
+        var statusAjax = document.querySelector("#status-ajax");
+        statusAjax.classList.remove("invisivel");
+        statusAjax.classList.add("destaqueTexto");
+        statusAjax.textContent = ("O código retornado pela API é : " + xhr.status);       
+        spinnerRemove(); 
+    })
+
+    xhr.send();
+    
+}
+
